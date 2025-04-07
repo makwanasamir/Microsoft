@@ -1,7 +1,10 @@
 Install-Module Microsoft.Graph -Scope CurrentUser
 
+#Tenant ID
 $tenantId = "ba8f8bff-c7fb-4629-bfb6-d6674106f7a5"
-$managedIdentityIds = "501a4f8b-2260-4634-a0f0-06a9be37c322"#, "ANOTHER-MANAGED-ID-IF-NEEDED"
+
+#Function App Managed Identity get it from Azure Portal
+$managedIdentityIds = "d7efaefa-54d1-4bc3-8e23-821801bab9a9"#, "ANOTHER-MANAGED-ID-IF-NEEDED"
 
 Connect-MgGraph -Scopes AppRoleAssignment.ReadWrite.All, Application.Read.All, RoleManagement.ReadWrite.Directory -TenantId $tenantId
 
