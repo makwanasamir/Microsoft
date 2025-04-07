@@ -8,12 +8,10 @@ param($Request, $TriggerMetadata)
         $ReceivedTime1 = $Null
         $Sender1 = $Null
         $Recipient1 = $Null
-        $Subject1 = $Null
+        $EmailSubject = $Null
 $tenantId = $env:TenantID
 $tenant = $env:Tenant
 Write-Host $tenant
-$AdminUserName = $env:AutomationAdmin_UserName
-$Password = $env:AutomationAdmin_Password
 $SenderEmailAddress = $request.body.SenderEmail
 Write-Host $SenderEmailAddress
 $Sender1 = $SenderEmailAddress
@@ -32,9 +30,6 @@ Write-Host $EmailSubject
 $MessageTraceStartDate = (Get-Date $ExpectedDeliveryDate).AddDays(-2)
 $MessageTraceEndDate = (Get-Date $ExpectedDeliveryDate).AddDays(2)
 
-$securePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
-$credential = New-Object System.Management.Automation.PSCredential($AdminUserName, $securePassword)
-
 Try
 {
     #Connect-ExchangeOnline -Credential $credential -TenantId $tenantId
@@ -48,8 +43,8 @@ Catch
 
 Try
 {
-    $AllEmail = Get-MessageTrace -SenderAddress $SenderEmailAddress -RecipientAddress $RecipientEmailAddress -StartDate $MessageTraceStartDate -EndDate $MessageTraceEndDate | where{$_.Subject -like "*$EmailSubject*"}
-    #$AllEmail = Get-MessageTrace -SenderAddress $SenderEmailAddress -RecipientAddress $RecipientEmailAddress -StartDate $Date -EndDate $Date | where{$_.Subject -like "*$EmailSubject*"}
+    $AllEmail = Get-MessageTrace -SenderAddress $SenderEmailAddress -RecipientAddress $RecipientEmailAddress -StartDate $MessageTraceStartDate -EndDate $MessageTraceEndDate | Where-Object{$_.Subject -like "*$EmailSubject*"}
+    #$AllEmail = Get-MessageTrace -SenderAddress $SenderEmailAddress -RecipientAddress $RecipientEmailAddress -StartDate $Date -EndDate $Date | where-Object{$_.Subject -like "*$EmailSubject*"}
     
     Write-Host $AllEmail
     Write-Host $AllEmail.count
@@ -120,7 +115,7 @@ Catch
     $DisconnectStatus = "DisconnectEXOFailed"
 }
 
-If($MessageToUser -eq $Null)
+If(!$MessageToUser)
 {
 # Associate values to output bindings by calling 'Push-OutputBinding'.
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
