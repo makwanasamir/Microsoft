@@ -9,6 +9,7 @@ param($Request, $TriggerMetadata)
         $Sender1 = $Null
         $Recipient1 = $Null
         $EmailSubject = $Null
+        $Subject1 = $null
 $tenantId = $env:TenantID
 $tenant = $env:Tenant
 Write-Host $tenant
@@ -62,8 +63,8 @@ If($AllEmail.count -ge 1)
 
         If($Status1 -like "Delivered")
         {
-            Write-Host "Email from "+ $Sender1 +" to " $Recipient1 + " was " + $Status1 + " on " + $ReceivedTime1
-            $MessageToUser =  "We found your email from "+ $Sender1 +" to " + $Recipient1 + " was " + $Status1 + " on " + $ReceivedTime1
+            Write-Host "Email from "+ $Sender1 +" to " $Recipient1 + " was " + $Status1 + " on " + $ReceivedTime1 + "with subject: " + $Subject1
+            $MessageToUser =  "We found your email from "+ $Sender1 +" to " + $Recipient1 + " was " + $Status1 + " on " + $ReceivedTime1  + "with subject: " + $Subject1
         }
         else
         {
