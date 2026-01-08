@@ -1,6 +1,6 @@
 #Install-Module -Name Az.Functions -Scope CurrentUser
 
-Connect-AzAccount -Tenant o365hybrid.onmicrosoft.com -Credential
+Connect-AzAccount -Tenant yourtenant.onmicrosoft.com -Credential
 
 # Import the Az.Functions module if not already imported
 Import-Module Az.Functions
